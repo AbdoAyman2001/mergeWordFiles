@@ -23,6 +23,9 @@ export const mergeWordFiles = () => {
   });
 };
 
+
+
+
 /**
  * Processes an array of Word files.
  * Reads the content of each file and appends it to an array.
@@ -33,12 +36,15 @@ export const mergeWordFiles = () => {
 const processWordFiles = async (files) => {
   const mergedDataArray = [];
   for (const file of files) {
-    const fileContent = await readWordFile(file.path);
+    const fileContent = await readWordFile(file);
+    // console.log(fileContent);
     mergedDataArray.push(...fileContent);
   }
-  console.log(mergedDataArray);
+  // console.log(mergedDataArray);
   return mergedDataArray;
 };
+
+
 
 /**
  * Reads the content of a Word file and extracts it as an array of objects.
@@ -46,12 +52,16 @@ const processWordFiles = async (files) => {
  * @param {string} filePath - Path to the Word file.
  * @returns {Promise<Array>} - A promise that resolves to an array of objects representing the table content.
  */
-const readWordFile = async (filePath) => {
+const readWordFile = async (file) => {
+
   try {
-    const { value: rawHtml } = await mammoth.convertToHtml({ path: filePath });
+    const { value: rawHtml } = await mammoth.convertToHtml({ path: file.path });
     const $ = cheerio.load(rawHtml);
     const tables = $("table");
     const tableContent = [];
+
+
+
 
     tables.each((i, table) => {
       const rows = $(table).find("tr");
@@ -61,6 +71,9 @@ const readWordFile = async (filePath) => {
 
         const cells = $(row).find("td, th");
         const rowData = {
+          letterDate:file.letterDate,
+          letterNumber : file.letterNumber,
+          letterType:file.letterType,
           englishName: $(cells[1]).text().trim(),
           arabicName: $(cells[2]).text().trim(),
           nationality: $(cells[3]).text().trim(),
@@ -84,6 +97,9 @@ const readWordFile = async (filePath) => {
     return [];
   }
 };
+
+
+
 
 /**
  * Prompts the user to choose a save location for the Excel file.
@@ -114,9 +130,12 @@ const getExcelPathFromUser = async () => {
     throw new Error("Save operation was canceled.");
   }
 
-  console.log("file path : ", filePath);
+  // console.log("file path : ", filePath);
   return filePath;
 };
+
+
+
 
 /**
  * Creates an Excel file, adds a sheet named "merged", and writes the provided data to the sheet.
@@ -124,13 +143,23 @@ const getExcelPathFromUser = async () => {
  * @param {Array} data - Array of data to write to the Excel sheet.
  * @param {string} excelPath - Path where the Excel file will be saved.
  */
-const appendDataToExcel = async (data, excelPath) => {
+const appendDataToExcel = async (data, excelPath,wordFilePath) => {
   try {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet("merged");
 
+
     // Define the header row
     const header = [
+      "Letter Number",
+      "Letter Date",
+      "Letter Type",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
       "English Name",
       "Arabic Name",
       "Nationality",
@@ -151,6 +180,15 @@ const appendDataToExcel = async (data, excelPath) => {
     // Add data rows to the sheet
     data.forEach((item) => {
       const row = [
+        item.letterNumber,
+        item.letterDate,
+        item.letterType,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
         item.englishName,
         item.arabicName,
         item.nationality,
@@ -169,7 +207,7 @@ const appendDataToExcel = async (data, excelPath) => {
 
     // Save the workbook to the specified path
     await workbook.xlsx.writeFile(excelPath);
-    console.log("Excel file created successfully at:", excelPath);
+    // console.log("Excel file created successfully at:", excelPath);
   } catch (error) {
     console.error("Error creating Excel file:", error);
   }

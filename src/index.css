@@ -1,0 +1,19 @@
+html,
+body {
+  margin: 0;
+}
+
+body {
+  margin-top: calc(68px + 1rem);
+}
+
+.was-validated .form-select:invalid:not([multiple]):not([size]),
+.was-validated .form-control:invalid {
+  background-color: var(--bs-danger);
+  color: white;
+}
+
+@font-face {
+  font-family: "Cairo";
+  src: url("./assets/Cairo-VariableFont_slnt,wght.ttf") format("truetype");
+}

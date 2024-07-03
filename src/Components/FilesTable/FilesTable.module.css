@@ -1,0 +1,29 @@
+.myTable {
+  font-family: Cairo, sans-serif;
+  text-align: center;
+  margin-block: 15px;
+}
+
+.myTable thead tr > * {
+  background-color: var(--bs-primary);
+  color: white;
+  font-weight: bold;
+  flex-grow: 1;
+  font-size: 1.1rem;
+}
+
+.myTable th,
+.myTable td:not([colspan="4"]) {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+table.myTable .whiteRow,
+table.myTable .whiteRow > td {
+  background-color: white !important;
+  --bs-table-bg-type: white;
+  border-bottom: none;
+  color: grey;
+}

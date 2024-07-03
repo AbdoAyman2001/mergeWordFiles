@@ -1,0 +1,9 @@
+- loop through the word files 
+  - read the content of each file 
+  - append it to an array 
+
+- ask the user to save the excel file and get the path from him.
+- create the excel file
+- create the first sheet with the name of merged
+- writing the array to the excel sheet.
+

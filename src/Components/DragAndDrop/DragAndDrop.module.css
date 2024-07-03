@@ -1,0 +1,15 @@
+/* src/DragAndDrop.module.css */
+.dropzone {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.dropzoneDragging {
+  background-color: rgba(128, 128, 128, 0.404);
+  z-index: 1000;
+}
+
+.hiddenInput {
+  display: none;
+}

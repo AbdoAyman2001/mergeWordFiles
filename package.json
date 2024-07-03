@@ -1,0 +1,64 @@
+{
+  "name": "mergewordfiles",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./electron/electron.js",
+  "scripts": {
+    "dev": "vite",
+    "rebuild": "electron-rebuild -f -w sqlite3",
+    "postinstall": "electron-builder install-app-deps",
+    "build": "vite build && electron-builder build --win",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "electron": "electron . --trace-warnings",
+    "electron:start": "concurrently \"npm run dev\" \"npm run electron\"",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.NPPA.mergewordfiles",
+    "productName": "Merge Word Files",
+    "directories": {
+      "buildResources": "electron/assets",
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "electron/assets/logo_cropped.ico"
+    },
+    "buildDependenciesFromSource": true
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@reduxjs/toolkit": "^2.2.1",
+    "bootstrap": "^5.3.2",
+    "cheerio": "^1.0.0-rc.12",
+    "electron-is-dev": "^3.0.1",
+    "exceljs": "^4.4.0",
+    "jsdom": "^24.0.0",
+    "mammoth": "^1.7.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react": "^4.2.1",
+    "electron": "^28.2.3",
+    "electron-builder": "^24.9.1",
+    "electron-rebuild": "^3.2.9",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "vite": "^5.1.0",
+    "vite-plugin-electron": "^0.28.2",
+    "vite-plugin-electron-renderer": "^0.14.5"
+  }
+}

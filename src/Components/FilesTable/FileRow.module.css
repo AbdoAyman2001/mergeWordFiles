@@ -1,0 +1,9 @@
+.row input,
+.row select {
+  font-size: 1rem ;
+  text-align: center;
+}
+
+.row button i { 
+  font-size: 1.2rem;
+}

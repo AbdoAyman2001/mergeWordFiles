@@ -1,0 +1,43 @@
+version: 2.1
+
+jobs:
+  build:
+    machine: true # Ensures we're using a Linux VM
+    steps:
+      - checkout
+      - run:
+          name: Setup Node.js
+          command: |
+            curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Install Wine
+          command: |
+            sudo dpkg --add-architecture i386  # Add support for i386 architecture
+            sudo apt-get update
+            sudo apt-get install -y wine-stable
+      - run:
+          name: Rebuild Native Modules
+          command: npm run rebuild
+      - run:
+          name: Build Application
+          command: npm run build
+      - run:
+          name: Compress Artifacts
+          command: |
+            # Install zip if not available, for Debian/Ubuntu
+            sudo apt-get update && sudo apt-get install -y zip
+            # Compress the directory
+            zip -r release-win-unpacked.zip release/win-unpacked
+      - store_artifacts:
+          path: release-win-unpacked.zip
+          destination: release_files
+
+workflows:
+  version: 2
+  build_and_store:
+    jobs:
+      - build

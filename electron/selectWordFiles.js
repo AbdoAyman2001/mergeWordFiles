@@ -103,6 +103,7 @@ const selectFolders = async (folders) => {
 export const getFileInformation = async (filePath) => {
   const stats = await fs.promises.stat(filePath);
   const pdfSiblingName = getSiblingPdfFilename(filePath);
+  console.log("pdfSiblling : ", pdfSiblingName)
   return {
     name: path.basename(filePath),
     path: filePath,
@@ -122,7 +123,7 @@ const getSiblingPdfFilename = (wordFilePath) => {
 
   // Define the regex pattern for the beginning of the PDF filename
   const pdfFilenamePattern =
-    /^[0-9]+\s[A-Za-z]{2}\s(?:\d{8}|\d{2}\.\d{2}\.\d{4})_/;
+    /^[0-9]+\s[A-Za-z]{2}\s(?:\d{8}|\d{2}\.\d{2}\.\d{4})/;
 
   // Filter the files that match the pattern and are PDF files
   const matchingPdfFiles = filesInDirectory.filter(
@@ -142,7 +143,7 @@ const getLetterNumber = (pdfSibling) => {
 };
 
 const getLetterDate = (pdfFilename) => {
-  const regexPattern = /(\s\d{8}_)|(\s\d{2}\.\d{2}\.\d{4}_)/;
+  const regexPattern = /(\s\d{8})|(\s\d{2}\.\d{2}\.\d{4})/;
   const match = pdfFilename.match(regexPattern);
 
   if (!match) return "";
@@ -170,21 +171,17 @@ const getLetterDate = (pdfFilename) => {
 };
 
 const getLetterType = (pdfFilename) => {
-  // Split the filename on "_"
-  const parts = pdfFilename.split("_");
-  if (parts.length < 2) {
-    return ""; // If there is no second element, return an empty string
-  }
-
   // Take the second element as the new filename and convert to lowercase
-  const newFilename = parts[1].trim().toLowerCase();
+  const newFilename = pdfFilename.trim().toLowerCase();
+
+  console.log("new File Name : ",newFilename)
 
   // Check the starting string of the new filename
-  if (newFilename.startsWith("on the transfer an employee")) {
+  if (newFilename.includes("on the transfer an employee")) {
     return "SiteAccess/Transfer";
-  } else if (newFilename.startsWith("on the site access for family")) {
+  } else if (newFilename.includes("on the site access for family")) {
     return "Family";
-  } else if (newFilename.startsWith("on the site access for contractor’s")) {
+  } else if (newFilename.includes("on the site access for contractor")) {
     return "SiteAccess";
   } else {
     return "";

@@ -24,8 +24,6 @@ export const mergeWordFiles = () => {
 };
 
 
-
-
 /**
  * Processes an array of Word files.
  * Reads the content of each file and appends it to an array.
@@ -71,7 +69,7 @@ const readWordFile = async (file) => {
 
         const cells = $(row).find("td, th");
         const rowData = {
-          letterDate:file.letterDate,
+          letterDate: reformatDate(file.letterDate),
           letterNumber : file.letterNumber,
           letterType:file.letterType,
           englishName: $(cells[1]).text().trim(),
@@ -212,3 +210,35 @@ const appendDataToExcel = async (data, excelPath,wordFilePath) => {
     console.error("Error creating Excel file:", error);
   }
 };
+
+
+
+
+/**
+ * Reformat a date from 'dd-mm-yyyy' format to 'dd/mm/yyyy' format.
+ * 
+ * @param {string} dateStr - The date string in 'dd-mm-yyyy' format.
+ * @returns {string} - The reformatted date string in 'dd/mm/yyyy' format.
+ * 
+ * @example
+ * 
+ * const reformattedDate = reformatDate('25-12-2023');
+ * console.log(reformattedDate); // Output: '25/12/2023'
+ */
+function reformatDate(dateStr) {
+  // Split the input date string by '-'
+  const dateParts = dateStr.split('-');
+
+  // Check if the input date string has exactly three parts: day, month, year
+  if (dateParts.length !== 3) {
+      throw new Error('Invalid date format. Please use "dd-mm-yyyy".');
+  }
+
+  // Extract the day, month, and year from the split parts
+  const day = dateParts[0];
+  const month = dateParts[1];
+  const year = dateParts[2];
+
+  // Return the reformatted date string in 'dd/mm/yyyy' format
+  return `${day}/${month}/${year}`;
+}

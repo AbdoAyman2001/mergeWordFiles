@@ -36,7 +36,7 @@ const FileRow = ({ row, rowIndex }) => {
           {row.path}
         </a>
       </td>
-      <td>
+      <td className={classes.letterNumber}>
         <input
           className="form-control"
           name="letterNumber"
@@ -47,7 +47,7 @@ const FileRow = ({ row, rowIndex }) => {
           onChange={letterNumberChangeHandler}
         />
       </td>
-      <td>
+      <td className={classes.letterDate}>
         <input
           className="form-control"
           name="letterDate"
@@ -58,7 +58,7 @@ const FileRow = ({ row, rowIndex }) => {
           value={row.letterDate}
         />
       </td>
-      <td>
+      <td className={classes.letterType}>
         <select
           className="form-select"
           name="letterType"

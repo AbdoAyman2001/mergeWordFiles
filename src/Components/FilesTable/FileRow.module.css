@@ -7,3 +7,15 @@
 .row button i { 
   font-size: 1.2rem;
 }
+
+.row > :first-child { 
+  max-width: 50%;
+}
+
+.letterNumber {
+  min-width: 90px;
+}
+
+.letterType { 
+  min-width: 150px;
+}

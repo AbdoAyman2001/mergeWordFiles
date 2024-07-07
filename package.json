@@ -35,8 +35,8 @@
     "asar": true,
     "extraResources": [
       {
-        "from": "./public/main.config.json",
-        "to": "main.config.json"
+        "from": "./public/companies.config.json",
+        "to": "companies.config.json"
       }
     ]
   },

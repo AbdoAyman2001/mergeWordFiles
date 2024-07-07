@@ -73,7 +73,7 @@ const readWordFile = async (file) => {
           letterNumber : file.letterNumber,
           letterType:file.letterType,
           company: file.company,
-          sendingDate: reformatDate(file.sendingDate.split("T")[0]),
+          sendingDate: file.sendingDate ?  reformatDate(file.sendingDate.split("T")[0]):"",
           englishName: $(cells[1]).text().trim(),
           arabicName: $(cells[2]).text().trim(),
           nationality: $(cells[3]).text().trim(),

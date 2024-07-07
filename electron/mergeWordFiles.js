@@ -72,6 +72,8 @@ const readWordFile = async (file) => {
           letterDate: reformatDate(file.letterDate),
           letterNumber : file.letterNumber,
           letterType:file.letterType,
+          company: file.company,
+          sendingDate: reformatDate(file.sendingDate.split("T")[0]),
           englishName: $(cells[1]).text().trim(),
           arabicName: $(cells[2]).text().trim(),
           nationality: $(cells[3]).text().trim(),
@@ -80,7 +82,6 @@ const readWordFile = async (file) => {
           job: $(cells[6]).text().trim(),
           permitStartDate: $(cells[7]).text().trim(),
           permitEndDate: $(cells[8]).text().trim(),
-          company: $(cells[9]).text().trim(),
           birthDate: $(cells[10]).text().trim(),
           qualification: $(cells[11]).text().trim(),
           address: $(cells[12]).text().trim(),
@@ -153,7 +154,7 @@ const appendDataToExcel = async (data, excelPath,wordFilePath) => {
       "Letter Date",
       "Letter Type",
       "",
-      "",
+      "Sending Date",
       "",
       "",
       "",
@@ -182,7 +183,7 @@ const appendDataToExcel = async (data, excelPath,wordFilePath) => {
         item.letterDate,
         item.letterType,
         "",
-        "",
+        item.sendingDate,
         "",
         "",
         "",
@@ -240,5 +241,5 @@ function reformatDate(dateStr) {
   const year = dateParts[2];
 
   // Return the reformatted date string in 'dd/mm/yyyy' format
-  return `${day}/${month}/${year}`;
+  return `${year}/${month}/${day}`;
 }

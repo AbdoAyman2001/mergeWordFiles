@@ -31,14 +31,14 @@ export const selectWordFiles = () => {
     try {
       for (const filePath of filePaths) {
         const fileInfo = await getFileInformation(filePath);
-        // console.log(fileInfo);
+        console.log(fileInfo);
         fileInfoArr.push(fileInfo);
       }
     } catch (error) {
       console.error("error while selecting word files: ", error);
       return { cancelled: true };
     }
-    // console.log(fileInfoArr);
+    console.log(fileInfoArr);
     return { cancelled: false, fileInfo: fileInfoArr, filePaths };
   });
 };
@@ -114,8 +114,21 @@ export const getFileInformation = async (filePath) => {
     letterNumber: getLetterNumber(pdfSiblingName),
     letterDate: getLetterDate(pdfSiblingName),
     letterType: getLetterType(pdfSiblingName),
+    sendingDate : getLetterSendingDate(filePath),
   };
 };
+
+const getLetterSendingDate =(filePath)=>{
+  const dir = path.dirname(filePath);
+  const files = fs.readdirSync(dir);
+  const msgFile = files.find(file => file.endsWith('.msg'));
+
+  if(!msgFile)   return null;
+  
+  const msgFilePath = path.join(dir, msgFile);
+  const stats = fs.statSync(msgFilePath);
+  return stats.birthtime.toISOString();
+}
 
 const getSiblingPdfFilename = (wordFilePath) => {
   const directory = path.dirname(wordFilePath);
@@ -178,11 +191,11 @@ const getLetterType = (pdfFilename) => {
 
   // Check the starting string of the new filename
   if (newFilename.includes("on the transfer an employee")) {
-    return "SiteAccess/Transfer";
+    return "Site Access/Transfer";
   } else if (newFilename.includes("on the site access for family")) {
-    return "Family";
+    return "Family member";
   } else if (newFilename.includes("on the site access for contractor")) {
-    return "SiteAccess";
+    return "Site Access";
   } else {
     return "";
   }

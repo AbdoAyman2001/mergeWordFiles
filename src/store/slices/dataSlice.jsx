@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-export const defaultConfig = {
 
+export const defaultConfig = {
   files: [],
+  companies: [],
 };
 
 export const dataSlice = createSlice({
@@ -21,6 +22,10 @@ export const dataSlice = createSlice({
       // Add only the new files to the state
       state.files = [...state.files, ...newFiles];
     },
+    setCompanies: (state, { payload }) => {
+      state.companies = payload;
+    },
+
     removeFile: (state, { payload }) => {
       state.files.splice(payload.index, 1);
     },
@@ -38,7 +43,7 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { addFiles, resetFiles, removeFile, updateFile } =
+export const { addFiles, resetFiles, removeFile, updateFile, setCompanies } =
   dataSlice.actions;
 
 export default dataSlice.reducer;

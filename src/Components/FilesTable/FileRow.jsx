@@ -1,9 +1,12 @@
 import React from "react";
 import classes from "./FileRow.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeFile, updateFile } from "../../store/slices/dataSlice";
+import Combobox from "../UI/ComboBox";
 
 const FileRow = ({ row, rowIndex }) => {
+  const companies = useSelector((state) => state.data.companies);
+
   const dispatch = useDispatch();
 
   const letterDateChangeHandler = (e) => {
@@ -68,11 +71,30 @@ const FileRow = ({ row, rowIndex }) => {
           onChange={letterTypeChangeHandler}
         >
           <option value="">نوع الخطاب</option>
-          <option value="SiteAccess">Site Access</option>
-          <option value="SiteAccess/Transfer">Transfer</option>
-          <option value="Family">Family</option>
+          <option value="Site Access">Site Access</option>
+          <option value="Site Access/Transfer">Transfer</option>
+          <option value="Family member">Family</option>
         </select>
       </td>
+
+      <td className={classes.company}>
+        {/* <select
+          className="form-select"
+          name="company"
+          id="company"
+          required
+          value={row.chosenCompany}
+          onChange={companyChangeHandler}
+        >
+          <option value="">الشركة</option>
+          {companies.map((item) => (
+            <option value={item}>{item}</option>
+          ))}
+        </select> */}
+
+        <Combobox companies={companies} row={row} />
+      </td>
+
       <td>
         <button
           type="button"

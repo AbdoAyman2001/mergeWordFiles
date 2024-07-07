@@ -7,10 +7,12 @@ import path from "node:path";
 import { selectWordFiles } from "./selectWordFiles.js";
 import { mergeWordFiles } from "./mergeWordFiles.js";
 import { navigteToFolder } from "./navigateToFolder.js";
+import { getCompaniesHandler } from "./getCompanies.js";
 
 selectWordFiles();
 mergeWordFiles();
 navigteToFolder();
+getCompaniesHandler()
 
 const isDev = import("electron-is-dev").then((module) => module.default);
 const __filename = fileURLToPath(import.meta.url);

@@ -31,7 +31,14 @@
       "target": "nsis",
       "icon": "electron/assets/logo_cropped.ico"
     },
-    "buildDependenciesFromSource": true
+    "buildDependenciesFromSource": true,
+    "asar": true,
+    "extraResources": [
+      {
+        "from": "./public/main.config.json",
+        "to": "main.config.json"
+      }
+    ]
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",

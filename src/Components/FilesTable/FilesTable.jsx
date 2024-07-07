@@ -8,6 +8,7 @@ const columns = {
   letterNumber: "رقم الخطاب",
   letterDate: "تاريخ الخطاب",
   letterType: "نوع الخطاب",
+  company:"الشركة"
 };
 
 const FilesTable = () => {

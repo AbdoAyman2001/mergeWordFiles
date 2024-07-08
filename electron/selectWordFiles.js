@@ -123,7 +123,7 @@ const getLetterSendingDate =(filePath)=>{
   const files = fs.readdirSync(dir);
   const msgFile = files.find(file => file.endsWith('.msg'));
 
-  if(!msgFile)   return null;
+  if(!msgFile)   return "";
   
   const msgFilePath = path.join(dir, msgFile);
   const stats = fs.statSync(msgFilePath);

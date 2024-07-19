@@ -32,7 +32,7 @@ const MyDropZone = () => {
         "merge-word-files",
         files
       );
-      dispatch(resetFiles());
+      // dispatch(resetFiles());
     } catch (error) {
       window.alert(`Error happened : ${error}`);
     }

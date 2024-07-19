@@ -9,7 +9,7 @@ const isDev = import("electron-is-dev").then((module) => module.default);
  */
 export const getCompaniesHandler = () => {
   ipcMain.handle("getConfig", async (event, name) => {
-    if (!name) return;
+    if (!name) return"";
     const configPath = (await isDev)
       ? path.join(app.getAppPath(), "public", `${name}.config.json`)
       : path.join(process.resourcesPath, `${name}.config.json`);

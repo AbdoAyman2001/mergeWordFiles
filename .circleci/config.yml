@@ -1,29 +1,35 @@
 version: 2.1
 
+executors:
+  node-executor:
+    docker:
+      - image: cimg/node:18.13.0
+    working_directory: ~/repo
+
 jobs:
   build:
-    machine: true # Ensures we're using a Linux VM
+    executor: node-executor
     steps:
       - checkout
       - run:
-          name: Setup Node.js
+          name: Clean up Node.js modules and package-lock
           command: |
-            curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-            sudo apt-get install -y nodejs
+            rm -rf node_modules
+            rm -f package-lock.json
       - run:
-          name: Install Dependencies
+          name: Install system dependencies
+          command: |
+            sudo dpkg --add-architecture i386
+            sudo apt-get update
+            sudo apt-get install -y wine64 wine32
+      - run:
+          name: Install Node.js dependencies
           command: npm install
       - run:
-          name: Install Wine
-          command: |
-            sudo dpkg --add-architecture i386  # Add support for i386 architecture
-            sudo apt-get update
-            sudo apt-get install -y wine-stable
-      - run:
-          name: Rebuild Native Modules
+          name: Rebuild sqlite3
           command: npm run rebuild
       - run:
-          name: Build Application
+          name: Build the application
           command: npm run build
       - run:
           name: Compress Artifacts
@@ -35,9 +41,8 @@ jobs:
       - store_artifacts:
           path: release-win-unpacked.zip
           destination: release_files
-
 workflows:
   version: 2
-  build_and_store:
+  build:
     jobs:
       - build

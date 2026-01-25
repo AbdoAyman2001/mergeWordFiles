@@ -8,8 +8,14 @@
   background-color: var(--bs-primary);
   color: white;
   font-weight: bold;
-  flex-grow: 1;
   font-size: 1.1rem;
+}
+
+.myTable thead tr > :first-child {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .myTable th,

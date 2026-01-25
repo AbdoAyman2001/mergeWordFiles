@@ -2,7 +2,6 @@ import React from "react";
 import classes from "./FileRow.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFile, updateFile } from "../../store/slices/dataSlice";
-import Combobox from "../UI/ComboBox";
 
 const FileRow = ({ row, rowIndex }) => {
   const companies = useSelector((state) => state.data.companies);
@@ -19,6 +18,10 @@ const FileRow = ({ row, rowIndex }) => {
   };
   const letterTypeChangeHandler = (e) => {
     dispatch(updateFile({ file: { ...row, letterType: e.target.value } }));
+  };
+
+  const companyChangeHandler = (e) => {
+    dispatch(updateFile({ file: { ...row, company: e.target.value } }));
   };
 
   const pathClickHandler = async () => {
@@ -78,21 +81,22 @@ const FileRow = ({ row, rowIndex }) => {
       </td>
 
       <td className={classes.company}>
-        {/* <select
-          className="form-select"
+        <input
+          className="form-control"
           name="company"
-          id="company"
+          id={`company-${rowIndex}`}
+          list={`companies-list-${rowIndex}`}
           required
-          value={row.chosenCompany}
+          value={row.company || ""}
           onChange={companyChangeHandler}
-        >
-          <option value="">الشركة</option>
-          {companies.map((item) => (
-            <option value={item}>{item}</option>
+          placeholder="Select company..."
+          dir="ltr"
+        />
+        <datalist id={`companies-list-${rowIndex}`}>
+          {companies.map((item, index) => (
+            <option key={index} value={item} />
           ))}
-        </select> */}
-
-        <Combobox companies={companies} row={row} />
+        </datalist>
       </td>
 
       <td>

@@ -25,6 +25,11 @@ export const dataSlice = createSlice({
     setCompanies: (state, { payload }) => {
       state.companies = payload;
     },
+    addCompany: (state, { payload }) => {
+      if (!state.companies.includes(payload)) {
+        state.companies = [...state.companies, payload];
+      }
+    },
 
     removeFile: (state, { payload }) => {
       state.files.splice(payload.index, 1);
@@ -43,7 +48,7 @@ export const dataSlice = createSlice({
   },
 });
 
-export const { addFiles, resetFiles, removeFile, updateFile, setCompanies } =
+export const { addFiles, resetFiles, removeFile, updateFile, setCompanies, addCompany } =
   dataSlice.actions;
 
 export default dataSlice.reducer;

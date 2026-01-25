@@ -8,11 +8,13 @@ import { selectWordFiles } from "./selectWordFiles.js";
 import { mergeWordFiles } from "./mergeWordFiles.js";
 import { navigteToFolder } from "./navigateToFolder.js";
 import { getCompaniesHandler } from "./getCompanies.js";
+import { saveCompaniesHandler } from "./saveCompanies.js";
 
 selectWordFiles();
 mergeWordFiles();
 navigteToFolder();
-getCompaniesHandler()
+getCompaniesHandler();
+saveCompaniesHandler();
 
 const isDev = import("electron-is-dev").then((module) => module.default);
 const __filename = fileURLToPath(import.meta.url);

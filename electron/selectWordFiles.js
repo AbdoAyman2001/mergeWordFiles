@@ -189,14 +189,20 @@ const getLetterType = (pdfFilename) => {
 
   console.log("new File Name : ",newFilename)
 
-  // Check the starting string of the new filename
-  if (newFilename.includes("on the transfer an employee")) {
+  // Check the starting string of the new filename with more flexible matching
+  // Check for transfer first (most specific)
+  if (newFilename.includes("transfer")) {
     return "Site Access/Transfer";
-  } else if (newFilename.includes("on the site access for family")) {
+  }
+  // Check for family
+  else if (newFilename.includes("family")) {
     return "Family member";
-  } else if (newFilename.includes("on the site access for contractor")) {
+  }
+  // Check for site access (catches both "site" and "contractor" mentions)
+  else if (newFilename.includes("site") || newFilename.includes("contractor")) {
     return "Site Access";
-  } else {
+  }
+  else {
     return "";
   }
 };

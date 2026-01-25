@@ -8,8 +8,18 @@
   font-size: 1.2rem;
 }
 
-.row > :first-child { 
-  max-width: 50%;
+.row > :first-child {
+  max-width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row > :first-child a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .letterNumber {

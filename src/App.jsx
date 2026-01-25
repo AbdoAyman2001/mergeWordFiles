@@ -1,15 +1,17 @@
 import "../node_modules/bootstrap/dist/css/bootstrap.rtl.min.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import classes from "./App.module.css";
 
 import MyDropzone from "./Components/MyDropZone";
+import AddCompanyModal from "./Components/AddCompanyModal";
 import { useDispatch } from "react-redux";
 import { setCompanies } from "./store/slices/dataSlice";
 
 const App = () => {
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchConfig = async () => {
@@ -32,10 +34,17 @@ const App = () => {
     <>
       <nav>
         <h1> دمج قوائم البيانات </h1>
+        <button
+          className={classes.addCompanyButton}
+          onClick={() => setShowModal(true)}
+        >
+          <i className="fas fa-plus"></i> Add Company
+        </button>
       </nav>
       <div className={classes.container}>
         <MyDropzone />
       </div>
+      <AddCompanyModal show={showModal} onClose={() => setShowModal(false)} />
     </>
   );
 };

@@ -2,7 +2,7 @@ import { ipcMain, dialog } from "electron";
 import fs from "fs";
 import path from "node:path";
 import mammoth from "mammoth";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import ExcelJS from "exceljs";
 import os from "os";
 

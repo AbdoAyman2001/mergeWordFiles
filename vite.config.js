@@ -9,6 +9,19 @@ export default defineConfig({
     electron({
       main: {
         entry: "electron/electron.js",
+        vite: {
+          build: {
+            rollupOptions: {
+              external: [
+                "cheerio",
+                "undici",
+                "mammoth",
+                "exceljs",
+                "jsdom",
+              ],
+            },
+          },
+        },
       },
       preload: {
         input: path.join(process.cwd(), "electron/preload.js"),

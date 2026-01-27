@@ -1,4 +1,5 @@
 // electron/electron-main.js
+import "./polyfills.js";
 import { app, BrowserWindow, dialog, globalShortcut, ipcMain } from "electron";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";

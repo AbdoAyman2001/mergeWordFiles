@@ -34,15 +34,9 @@ const App = () => {
     <>
       <nav>
         <h1> دمج قوائم البيانات </h1>
-        <button
-          className={classes.addCompanyButton}
-          onClick={() => setShowModal(true)}
-        >
-          <i className="fas fa-plus"></i> Add Company
-        </button>
       </nav>
       <div className={classes.container}>
-        <MyDropzone />
+        <MyDropzone onAddCompany={() => setShowModal(true)} />
       </div>
       <AddCompanyModal show={showModal} onClose={() => setShowModal(false)} />
     </>

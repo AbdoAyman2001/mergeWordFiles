@@ -148,8 +148,9 @@ const appendDataToExcel = async (data, excelPath,wordFilePath) => {
     const sheet = workbook.addWorksheet("merged");
 
 
-    // Define the header row
+    // Define the header row with serial number
     const header = [
+      "#",
       "Letter Number",
       "Letter Date",
       "Letter Type",
@@ -176,14 +177,15 @@ const appendDataToExcel = async (data, excelPath,wordFilePath) => {
     // Add the header row to the sheet
     sheet.addRow(header);
 
-    // Add data rows to the sheet
-    data.forEach((item) => {
-      const row = [
+    // Add data rows to the sheet with serial number
+    data.forEach((item, index) => {
+      const row = sheet.addRow([
+        index + 1,
         item.letterNumber,
-        item.letterDate,
+        parseExcelDate(item.letterDate),
         item.letterType,
         "",
-        item.sendingDate,
+        parseExcelDate(item.sendingDate),
         "",
         "",
         "",
@@ -200,8 +202,18 @@ const appendDataToExcel = async (data, excelPath,wordFilePath) => {
         item.birthDate,
         item.qualification,
         item.address,
-      ];
-      sheet.addRow(row);
+      ]);
+
+      // Set date format for date columns (Letter Date - column 3, Sending Date - column 6)
+      const letterDateCell = row.getCell(3);
+      const sendingDateCell = row.getCell(6);
+
+      if (letterDateCell.value instanceof Date) {
+        letterDateCell.numFmt = 'DD/MM/YYYY';
+      }
+      if (sendingDateCell.value instanceof Date) {
+        sendingDateCell.numFmt = 'DD/MM/YYYY';
+      }
     });
 
     // Save the workbook to the specified path
@@ -211,6 +223,35 @@ const appendDataToExcel = async (data, excelPath,wordFilePath) => {
     console.error("Error creating Excel file:", error);
   }
 };
+
+/**
+ * Parse a date string in 'yyyy/mm/dd' format to a JavaScript Date object for Excel.
+ *
+ * @param {string} dateStr - The date string in 'yyyy/mm/dd' format.
+ * @returns {Date|string} - A Date object or empty string if invalid.
+ */
+function parseExcelDate(dateStr) {
+  if (!dateStr || dateStr.trim() === "") {
+    return "";
+  }
+
+  const parts = dateStr.split('/');
+  if (parts.length !== 3) {
+    return dateStr;
+  }
+
+  const year = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10) - 1;
+  const day = parseInt(parts[2], 10);
+
+  const date = new Date(year, month, day);
+
+  if (isNaN(date.getTime())) {
+    return dateStr;
+  }
+
+  return date;
+}
 
 
 

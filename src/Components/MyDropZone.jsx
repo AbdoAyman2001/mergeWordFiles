@@ -7,7 +7,7 @@ import classes from "./MyDropZone.module.css";
 import { resetFiles } from "../store/slices/dataSlice";
 import DragAndDrop from "./DragAndDrop/DragAndDrop";
 
-const MyDropZone = () => {
+const MyDropZone = ({ onAddCompany }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const files = useSelector((state) => state.data.files);
@@ -51,7 +51,16 @@ const MyDropZone = () => {
       >
         <DragAndDrop />
 
-        <SelectButton />
+        <div className={classes.buttonGroup}>
+          <SelectButton />
+          <button
+            type="button"
+            className={`btn btn-outline-primary ${classes.addCompanyBtn}`}
+            onClick={onAddCompany}
+          >
+            <i className="fas fa-plus"></i> Add Company
+          </button>
+        </div>
         {files.length > 0 && <SubmitButton isSubmitting={isSubmitting} />}
         <FilesTable />
       </form>

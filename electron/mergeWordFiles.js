@@ -257,30 +257,38 @@ function parseExcelDate(dateStr) {
 
 
 /**
- * Reformat a date from 'dd-mm-yyyy' format to 'dd/mm/yyyy' format.
- * 
- * @param {string} dateStr - The date string in 'dd-mm-yyyy' format.
- * @returns {string} - The reformatted date string in 'dd/mm/yyyy' format.
- * 
- * @example
- * 
- * const reformattedDate = reformatDate('25-12-2023');
- * console.log(reformattedDate); // Output: '25/12/2023'
+ * Reformat a date to 'yyyy/mm/dd' format for Excel parsing.
+ * Handles both 'yyyy-mm-dd' (ISO) and 'dd-mm-yyyy' input formats.
+ *
+ * @param {string} dateStr - The date string.
+ * @returns {string} - The reformatted date string in 'yyyy/mm/dd' format.
  */
 function reformatDate(dateStr) {
+  if (!dateStr) return "";
+
   // Split the input date string by '-'
   const dateParts = dateStr.split('-');
 
-  // Check if the input date string has exactly three parts: day, month, year
+  // Check if the input date string has exactly three parts
   if (dateParts.length !== 3) {
-      throw new Error('Invalid date format. Please use "dd-mm-yyyy".');
+      throw new Error('Invalid date format.');
   }
 
-  // Extract the day, month, and year from the split parts
-  const day = dateParts[0];
-  const month = dateParts[1];
-  const year = dateParts[2];
+  let day, month, year;
 
-  // Return the reformatted date string in 'dd/mm/yyyy' format
+  // Detect format: if first part is 4 digits, it's yyyy-mm-dd (ISO format)
+  if (dateParts[0].length === 4) {
+    // ISO format: yyyy-mm-dd
+    year = dateParts[0];
+    month = dateParts[1];
+    day = dateParts[2];
+  } else {
+    // Legacy format: dd-mm-yyyy
+    day = dateParts[0];
+    month = dateParts[1];
+    year = dateParts[2];
+  }
+
+  // Return the reformatted date string in 'yyyy/mm/dd' format
   return `${year}/${month}/${day}`;
 }
